@@ -8,20 +8,30 @@
 		<version>2.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>rest-service</artifactId>
+	<groupId>com.paule</groupId>
+	<artifactId>kitprod_api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rest-service</name>
-	<description>Demo project for Spring Boot</description>
+	<name>kitprod_api</name>
+	<description>api for kit prod_mobile</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

@@ -1,14 +1,22 @@
-package com.api.restservice.modele;
+package com.paule.kitprod_api.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "building")
 public class Building {
 
+    @Id
     private long id;
     private String name;
-    private float space;
+    private double space;
     private int numberOfLots;
 
-    public Building(long id, String name, float space, int numberOfLots) {
-        this.id = id;
+    public Building(){
+        super();
+    }
+
+    public Building(String name, double space, int numberOfLots) {
         this.name = name;
         this.space = space;
         this.numberOfLots = numberOfLots;
@@ -22,7 +30,7 @@ public class Building {
         return name;
     }
 
-    public float getSpace() {
+    public double getSpace() {
         return space;
     }
 

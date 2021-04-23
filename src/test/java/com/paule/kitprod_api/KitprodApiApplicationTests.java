@@ -1,10 +1,10 @@
-package com.example.restservice;
+package com.paule.kitprod_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestServiceApplicationTests {
+class KitprodApiApplicationTests {
 
 	@Test
 	void contextLoads() {
