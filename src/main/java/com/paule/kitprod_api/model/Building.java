@@ -9,14 +9,14 @@ public class Building {
     @Id
     private long id;
     private String name;
-    private double space;
+    private int space;
     private int numberOfLots;
 
     public Building(){
         super();
     }
 
-    public Building(String name, double space, int numberOfLots) {
+    public Building(String name, int space, int numberOfLots) {
         this.name = name;
         this.space = space;
         this.numberOfLots = numberOfLots;
@@ -30,7 +30,7 @@ public class Building {
         return name;
     }
 
-    public double getSpace() {
+    public int getSpace() {
         return space;
     }
 

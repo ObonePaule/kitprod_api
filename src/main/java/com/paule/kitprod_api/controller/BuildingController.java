@@ -26,7 +26,8 @@ public class BuildingController {
 
     @PostMapping(value = "/create-building")
     public String createBuilding(@RequestBody Building building){
-        Building insertedBuilding = buildingRepository.insert(building);
+        Building insertedBuilding;
+        insertedBuilding = buildingRepository.insert(building);
         return "Building created: "+insertedBuilding.getName();
 
     }
