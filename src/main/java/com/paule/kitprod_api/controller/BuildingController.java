@@ -1,7 +1,10 @@
 package com.paule.kitprod_api.controller;
 
 import com.paule.kitprod_api.model.Building;
-import com.paule.kitprod_api.repository.BuildingRepository;
+import com.paule.kitprod_api.model.SequenceGeneratorService;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.paule.kitprod_api.repository.BuildingRepositoryCustomImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,22 +15,21 @@ import java.util.List;
 @RestController
 public class BuildingController {
 
-    public BuildingRepository buildingRepository;
+    @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
 
-//    @GetMapping(value = "/abuilding")
-//    public Building getBuilding(Long id){
-//        return buildingRepository.findById(id);
-//    }
+    @Autowired
+    public BuildingRepositoryCustomImpl buildingRepositoryCustomImpl;
 
-    @GetMapping(value = "/all-building")
-    public List<Building> getAllBuilding(){
-        return buildingRepository.findAll();
+    @GetMapping(value = "/buildings")
+    public List<Building> getAllBuildings(@RequestParam long idExploitation){
+        return buildingRepositoryCustomImpl.findAll(idExploitation);
     }
 
-    @PostMapping(value = "/create-building")
-    public String createBuilding(@RequestBody Building building){
-        Building insertedBuilding;
-        insertedBuilding = buildingRepository.insert(building);
+    @PostMapping(value = "/buildings")
+    public String createBuilding(@RequestBody Building building, @RequestParam Long idExploitation){
+        building.setId(sequenceGeneratorService.generateSequence(building.SEQUENCE_NAME));
+        Building insertedBuilding = buildingRepositoryCustomImpl.insert(idExploitation, building);
         return "Building created: "+insertedBuilding.getName();
 
     }

@@ -1,29 +1,12 @@
 package com.paule.kitprod_api.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public enum FixedTaskType {
+    NETTOYAGE_DESINFECTION("Nettoyage"),
+    PREPARATION_BATIMENT("Preparation");
 
-@Document(collection = "fixedTaskType")
-public class FixedTaskType {
+    public final String label;
 
-    @Id
-    private long id;
-    private String label;
-
-    public FixedTaskType(){
-        super();
-    }
-
-    public FixedTaskType(String label){
-        super();
+    FixedTaskType(String label) {
         this.label = label;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getLabel() {
-        return label;
     }
 }

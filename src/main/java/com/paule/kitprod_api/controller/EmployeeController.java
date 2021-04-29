@@ -1,12 +1,11 @@
 package com.paule.kitprod_api.controller;
 
-import com.paule.kitprod_api.repository.EmployeeRepository;
+import com.paule.kitprod_api.model.Charge;
 import com.paule.kitprod_api.model.Employee;
+import com.paule.kitprod_api.model.SequenceGeneratorService;
+import com.paule.kitprod_api.repository.EmployeeRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,16 +13,19 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    public EmployeeRepository employeeRepository;
+    private SequenceGeneratorService sequenceGeneratorService;
 
-    @GetMapping(value = "/all-employee")
-    public List<Employee> getAllEmployees(){
-        return employeeRepository.findAll();
+    @Autowired public EmployeeRepositoryCustomImpl employeeRepositoryCustomImpl;
+
+    @GetMapping(value = "/employees")
+    public List<Employee> getAllEmployees(@RequestParam long idExploitation){
+        return employeeRepositoryCustomImpl.findAll(idExploitation);
     }
 
-    @PostMapping(value = "/create-employee")
-    public String createEmployee(@RequestBody Employee employee){
-        Employee insertedEmployee = employeeRepository.insert(employee);
+    @PostMapping(value = "/employees")
+    public String createEmployee(@RequestParam long idExploitation, @RequestBody Employee employee){
+        employee.setId(sequenceGeneratorService.generateSequence(employee.SEQUENCE_NAME));
+        Employee insertedEmployee = employeeRepositoryCustomImpl.insert(idExploitation, employee);
         return "Employee created: "+insertedEmployee.getName();
     }
 }

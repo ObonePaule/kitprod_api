@@ -1,12 +1,10 @@
 package com.paule.kitprod_api.controller;
 
 import com.paule.kitprod_api.model.Food;
-import com.paule.kitprod_api.repository.FoodRepository;
+import com.paule.kitprod_api.model.SequenceGeneratorService;
+import com.paule.kitprod_api.repository.FoodRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,16 +12,20 @@ import java.util.List;
 public class FoodController {
 
     @Autowired
-    public FoodRepository foodRepository;
+    private SequenceGeneratorService sequenceGeneratorService;
 
-    @GetMapping(value = "/all-food")
-    public List<Food> getAllFood(){
-        return foodRepository.findAll();
+    @Autowired
+    public FoodRepositoryCustomImpl foodRepositoryCustomImpl;
+
+    @GetMapping(value = "/foods")
+    public List<Food> getAllFood(@RequestParam long idExploitation){
+        return foodRepositoryCustomImpl.findAll(idExploitation);
     }
 
-    @PostMapping(value = "/create-food")
-    public String createdFood(@RequestBody Food food){
-        Food insertedFood = foodRepository.insert(food);
+    @PostMapping(value = "/foods")
+    public String createFood(@RequestParam long idExploitation, @RequestBody Food food){
+        food.setId(sequenceGeneratorService.generateSequence(food.SEQUENCE_NAME));
+        Food insertedFood = foodRepositoryCustomImpl.insert(idExploitation, food);
         return "Food inserted"+insertedFood.getName();
     }
 }

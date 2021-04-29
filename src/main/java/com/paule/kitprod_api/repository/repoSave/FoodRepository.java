@@ -1,4 +1,4 @@
-package com.paule.kitprod_api.repository;
+package com.paule.kitprod_api.repository.repoSave;
 
 import com.paule.kitprod_api.model.Food;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -2,6 +2,7 @@ package com.paule.kitprod_api.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.List;
 
 @Document(collection = "lot")
 public class Lot {
@@ -15,13 +16,13 @@ public class Lot {
     private int number;
     private double costOfLitter;
     private boolean isArchived;
-    private Building idBuilding;
+    private List<LotSheet> listOfLotSheet;
 
     public Lot(){
         super();
     }
 
-    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter,boolean isArchived){
+    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter,boolean isArchived, List<LotSheet> listOfLotSheet){
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
@@ -29,42 +30,8 @@ public class Lot {
         this.costByAnimal = costByAnimal;
         this.costOfLitter = costOfLitter;
         this.isArchived = isArchived;
+        this.listOfLotSheet = listOfLotSheet;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSpecies() {
-        return species;
-    }
-
-    public int getMepAge() {
-        return mepAge;
-    }
-
-    public double getCostByAnimal() {
-        return costByAnimal;
-    }
-
-    public double getCostOfLitter() {
-        return costOfLitter;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public boolean isArchived() {
-        return isArchived;
-    }
-
-    public Building getIdBuilding() {
-        return idBuilding;
-    }
 }
 
