@@ -5,8 +5,11 @@ import com.paule.kitprod_api.model.Food;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Repository
 public class FoodRepositoryCustomImpl implements IFoodRepositoryCustom {
@@ -36,4 +39,18 @@ public class FoodRepositoryCustomImpl implements IFoodRepositoryCustom {
         }
         return null;
     }
+
+    @Override
+    public Food findById(long idExploitation, long idFood) {
+        List<Food> foods = this.findAll(idExploitation);
+        Predicate<Food> byId = food -> food.getId() == idFood;
+
+        List<Food> foodById = foods.stream().filter(byId).collect(Collectors.toList());
+        if (!foodById.isEmpty()){
+            return foodById.get(0);
+        }
+
+        return null;
+    }
+
 }

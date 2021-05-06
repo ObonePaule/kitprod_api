@@ -18,16 +18,16 @@ public class RawMaterialController {
     public RawMaterialRepositoryCustomImpl rawMaterialRepositoryCustomImpl;
 
     @GetMapping(value = "/rawmaterials")
-    public List<RawMaterial> getAllRawMaterials(@RequestParam long idFood){
-        return rawMaterialRepositoryCustomImpl.findAll(idFood);
+    public List<RawMaterial> getAllRawMaterials(@RequestParam long idExploitation, @RequestParam long idFood ){
+        return rawMaterialRepositoryCustomImpl.findAll(idExploitation, idFood);
     }
 
     @PostMapping(value = "/rawmaterials")
-    public String createRawMaterial( @RequestParam Long idFood, @RequestBody RawMaterial rawMaterial){
+    public String createRawMaterial( @RequestParam long idExploitation, @RequestParam long idFood, @RequestBody RawMaterial rawMaterial){
         rawMaterial.setId(sequenceGeneratorService.generateSequence(rawMaterial.SEQUENCE_NAME));
-        RawMaterial insertedRawMaterial = rawMaterialRepositoryCustomImpl.insert(idFood, rawMaterial);
+        RawMaterial insertedRawMaterial = rawMaterialRepositoryCustomImpl.insert(idExploitation, idFood, rawMaterial);
 
-        return "RawMaterial created: ";
+        return "RawMaterial created: "+rawMaterial.getName();
     }
 
 

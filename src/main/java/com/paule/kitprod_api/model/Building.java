@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "building")
@@ -17,17 +18,24 @@ public class Building {
     private String name;
     private int space;
     private int numberOfLots;
-    private List<Lot> lots;
+    private ArrayList<Lot> lots;
 
     public Building(){
         super();
     }
 
-    public Building(String name, int space, int numberOfLots, List<Lot> lots) {
+    public Building(String name, int space, int numberOfLots, ArrayList<Lot> lots) {
         this.name = name;
         this.space = space;
         this.numberOfLots = numberOfLots;
         this.lots = lots;
+    }
+
+    public void addLot(Lot lot){
+        if (this.lots == null) {
+            this.lots = new ArrayList<>();
+        }
+        this.lots.add(lot);
     }
 
     public long getId() {
@@ -66,7 +74,7 @@ public class Building {
         return lots;
     }
 
-    public void setLots(List<Lot> lots) {
+    public void setLots(ArrayList<Lot> lots) {
         this.lots = lots;
     }
 }

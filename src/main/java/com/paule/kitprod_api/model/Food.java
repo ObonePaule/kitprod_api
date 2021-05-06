@@ -32,7 +32,6 @@ public class Food{
             this.rawMaterials = new ArrayList<>();
         }
         this.rawMaterials.add(rawMaterial);
-
     }
 
     public long getId() {

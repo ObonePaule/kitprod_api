@@ -1,5 +1,6 @@
 package com.paule.kitprod_api.repository;
 
+import com.paule.kitprod_api.model.Exploitation;
 import com.paule.kitprod_api.model.Food;
 import com.paule.kitprod_api.model.RawMaterial;
 import com.paule.kitprod_api.repository.repoSave.FoodRepository;
@@ -12,15 +13,18 @@ import java.util.Optional;
 public class RawMaterialRepositoryCustomImpl implements IRawMaterialRepositoryCustom{
 
     @Autowired
-    public FoodRepository foodRepository;
+    public ExploitationRepository exploitationRepository;
+
+    @Autowired
+    public FoodRepositoryCustomImpl foodRepositoryCustomImpl;
 
     @Override
-    public RawMaterial insert(long idFood, RawMaterial rawMaterial) {
-        Optional<Food> food = foodRepository.findById(idFood);
-        if (food.isPresent()){
-            Food existingFood = food.get();
-            existingFood.addRawMaterial(rawMaterial);
-            foodRepository.save(existingFood);
+    public RawMaterial insert(long idExploitation, long idFood, RawMaterial rawMaterial) {
+        Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+        if (exploitation.isPresent()){
+            Exploitation existingExploitation = exploitation.get();
+            existingExploitation.addRawMaterial(idFood, rawMaterial);
+            exploitationRepository.save(existingExploitation);
 
             return rawMaterial;
         }
@@ -29,10 +33,9 @@ public class RawMaterialRepositoryCustomImpl implements IRawMaterialRepositoryCu
     }
 
     @Override
-    public List<RawMaterial> findAll(long idFood) {
-        Optional<Food> food = foodRepository.findById(idFood);
-        if (food.isPresent()) {
-            Food existingFood = food.get();
+    public List<RawMaterial> findAll(long idExploitation, long idFood) {
+        Food existingFood = foodRepositoryCustomImpl.findById(idExploitation, idFood);
+        if (existingFood != null){
             return existingFood.getRawMaterials();
         }
 
