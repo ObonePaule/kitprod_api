@@ -19,8 +19,9 @@ public class LotSheetRepositoryCustomImpl implements ILotSheetRepositoryCustom {
     private LotRepositoryCustomImpl lotRepositoryCustomImpl;
 
     @Override
-    public LotSheet insert(long idExploitation, long idBuilding, long idLot, LotSheet lotSheet) {
+    public LotSheet insert(String idExploitation, String idBuilding, String idLot, LotSheet lotSheet) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
         if (exploitation.isPresent()) {
             Exploitation existingExploitation = exploitation.get();
             existingExploitation.addLotSheet(idBuilding, idLot, lotSheet);
@@ -32,8 +33,9 @@ public class LotSheetRepositoryCustomImpl implements ILotSheetRepositoryCustom {
     }
 
     @Override
-    public List<LotSheet> findAll(long idExploitation, long idBuilding, long idLot) {
+    public List<LotSheet> findAll(String idExploitation, String idBuilding, String idLot) {
         Lot lot = lotRepositoryCustomImpl.findById(idExploitation, idBuilding, idLot);
+
         return lot.getLotSheets();
     }
 }

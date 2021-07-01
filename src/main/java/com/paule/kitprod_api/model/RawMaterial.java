@@ -8,7 +8,7 @@ public class RawMaterial {
     @Transient
     public static final String SEQUENCE_NAME = "rawmaterials_sequence";
 
-    @Id private long id;
+    @Id private String id;
     private String name;
     private double proportion;
     private double mpPrice;
@@ -22,11 +22,11 @@ public class RawMaterial {
         this.mpPrice = mpPrice;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

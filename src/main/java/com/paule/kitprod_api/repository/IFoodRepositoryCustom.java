@@ -4,7 +4,7 @@ import com.paule.kitprod_api.model.Food;
 import java.util.List;
 
 public interface IFoodRepositoryCustom {
-    public Food insert(long idExploitation, Food food);
-    public List<Food> findAll(long idExploitation);
-    public Food findById(long idExploitation, long idFood);
+    public Food insert(String idExploitation, Food food);
+    public List<Food> findAll(String idExploitation);
+    public Food findById(String idExploitation, String idFood);
 }

@@ -14,8 +14,9 @@ public class FixedTaskRepositoryCustomImpl implements IFixedTaskRepositoryCustom
     @Autowired public ExploitationRepository exploitationRepository;
 
     @Override
-    public FixedTask insert(long idExploitation, FixedTask fixedTask) {
+    public FixedTask insert(String idExploitation, FixedTask fixedTask) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
         if (exploitation.isPresent()){
             Exploitation existingExploitation = exploitation.get();
             existingExploitation.addFixedTask(fixedTask);
@@ -28,8 +29,9 @@ public class FixedTaskRepositoryCustomImpl implements IFixedTaskRepositoryCustom
     }
 
     @Override
-    public List<FixedTask> findAll(long idExploitation) {
+    public List<FixedTask> findAll(String idExploitation) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
         if (exploitation.isPresent()){
             Exploitation existingExploitation = exploitation.get();
 

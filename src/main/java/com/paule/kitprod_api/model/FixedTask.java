@@ -11,25 +11,23 @@ public class FixedTask {
     public static final String SEQUENCE_NAME = "fixedtasks_sequence";
 
     @Id
-    private long id;
+    private String id;
     private FixedTaskType fixedTaskType;
     private double value;
 
     public FixedTask(){
-        super();
     }
 
     public FixedTask(FixedTaskType fixedTaskType, double value){
-        super();
         this.fixedTaskType = fixedTaskType;
         this.value = value;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

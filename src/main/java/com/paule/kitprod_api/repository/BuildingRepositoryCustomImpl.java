@@ -2,7 +2,6 @@ package com.paule.kitprod_api.repository;
 
 import com.paule.kitprod_api.model.Building;
 import com.paule.kitprod_api.model.Exploitation;
-import com.paule.kitprod_api.model.Food;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +17,7 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
     ExploitationRepository exploitationRepository;
 
     @Override
-    public Building insert(long idExploitation, Building building) {
+    public Building insert(String idExploitation, Building building) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
 
         if (exploitation.isPresent()) {
@@ -32,8 +31,9 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
     }
 
     @Override
-    public List<Building> findAll(long idExploitation) {
+    public List<Building> findAll(String idExploitation) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
         if (exploitation.isPresent()) {
             Exploitation existingExploitation = exploitation.get();
 
@@ -43,15 +43,14 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
     }
 
     @Override
-    public Building findById(long idExploitation, long idBuilding) {
+    public Building findById(String idExploitation, String idBuilding) {
         List<Building> buildings = this.findAll(idExploitation);
         Predicate<Building> byId = building -> building.getId() == idBuilding;
-
         List<Building> buildingById = buildings.stream().filter(byId).collect(Collectors.toList());
+
         if (!buildingById.isEmpty()){
             return buildingById.get(0);
         }
-
         return null;
     }
 }

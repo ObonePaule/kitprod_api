@@ -9,7 +9,7 @@ public class Employee{
 
     @Transient public static final String SEQUENCE_NAME = "employees_sequence";
 
-    @Id private long id;
+    @Id private String id;
     private String name;
     private double numberOfHour;
     private double hourCost;
@@ -25,11 +25,11 @@ public class Employee{
         this.hourCost = hourCost;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

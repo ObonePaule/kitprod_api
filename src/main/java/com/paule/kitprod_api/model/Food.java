@@ -14,12 +14,11 @@ public class Food{
     public static final String SEQUENCE_NAME = "foods_sequence";
 
     @Id
-    private long id;
+    private String id;
     private String name;
     private List<RawMaterial> rawMaterials;
 
     public Food(){
-        super();
     }
 
     public Food(String name, List<RawMaterial> rawMaterials){
@@ -34,11 +33,11 @@ public class Food{
         this.rawMaterials.add(rawMaterial);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Document(collection = "lot")
@@ -14,7 +15,7 @@ public class Lot {
     public static final String SEQUENCE_NAME = "lots_sequence";
 
     @Id
-    private long id;
+    private String id;
     private String name;
     private String species;
     private int mepAge;
@@ -28,14 +29,14 @@ public class Lot {
         super();
     }
 
-    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter,boolean isArchived, List<LotSheet> lotSheets){
+    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter, List<LotSheet> lotSheets){
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
         this.number = number;
         this.costByAnimal = costByAnimal;
         this.costOfLitter = costOfLitter;
-        this.isArchived = isArchived;
+        //this.isArchived = isArchived;
         this.lotSheets = lotSheets;
     }
 
@@ -46,11 +47,11 @@ public class Lot {
         this.lotSheets.add(lotSheet);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -102,15 +103,18 @@ public class Lot {
         this.costOfLitter = costOfLitter;
     }
 
-    public boolean isArchived() {
-        return isArchived;
-    }
-
-    public void setArchived(boolean archived) {
-        isArchived = archived;
-    }
+//    public boolean isArchived() {
+//        return isArchived;
+//    }
+//
+//    public void setArchived(boolean archived) {
+//        isArchived = archived;
+//    }
 
     public List<LotSheet> getLotSheets() {
+        if (lotSheets == null) {
+            return Collections.EMPTY_LIST;
+        }
         return lotSheets;
     }
 

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class LotController {
 
@@ -18,16 +20,16 @@ public class LotController {
     public LotRepositoryCustomImpl lotRepositoryCustomImpl;
 
     @GetMapping(value = "/lots")
-    public List<Lot> getAllLots(@RequestParam long idExploitation, @RequestParam long idBuilding ){
+    public List<Lot> getAllLots(@RequestParam String idExploitation, @RequestParam String idBuilding ){
         return lotRepositoryCustomImpl.findAll(idExploitation, idBuilding);
     }
 
     @PostMapping(value = "/lots")
-    public String createLot( @RequestParam long idExploitation, @RequestParam long idBuilding, @RequestBody Lot lot){
-        lot.setId(sequenceGeneratorService.generateSequence(lot.SEQUENCE_NAME));
+    public Lot createLot( @RequestParam String idExploitation, @RequestParam String idBuilding, @RequestBody Lot lot){
+        lot.setId(UUID.randomUUID().toString());
         Lot insertedLot = lotRepositoryCustomImpl.insert(idExploitation, idBuilding, lot);
 
-        return "Lot created: "+lot.getName();
+        return insertedLot;
     }
 
 

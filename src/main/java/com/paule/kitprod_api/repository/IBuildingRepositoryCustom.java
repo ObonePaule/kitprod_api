@@ -4,7 +4,7 @@ import com.paule.kitprod_api.model.Building;
 import java.util.List;
 
 public interface IBuildingRepositoryCustom {
-    public Building insert(long idExploitation, Building building);
-    public List<Building> findAll(long idExploitation);
-    public Building findById(long idExploitation, long idBuilding);
+    public Building insert(String idExploitation, Building building);
+    public List<Building> findAll(String idExploitation);
+    public Building findById(String idExploitation, String idBuilding);
 }

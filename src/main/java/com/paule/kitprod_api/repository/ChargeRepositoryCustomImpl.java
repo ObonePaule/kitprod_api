@@ -14,12 +14,11 @@ public class ChargeRepositoryCustomImpl implements IChargeRepositoryCustom {
     @Autowired ExploitationRepository exploitationRepository;
 
     @Override
-    public Charge insert(long idExploitation, Charge charge) {
+    public Charge insert(String idExploitation, Charge charge) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
 
         if (exploitation.isPresent()) {
             Exploitation existingExploitation = exploitation.get();
-
             existingExploitation.addCharge(charge);
             exploitationRepository.save(existingExploitation);
 
@@ -29,8 +28,9 @@ public class ChargeRepositoryCustomImpl implements IChargeRepositoryCustom {
     }
 
     @Override
-    public List<Charge> findAll(long idExploitation) {
+    public List<Charge> findAll(String idExploitation) {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
         if (exploitation.isPresent()) {
             Exploitation existingExploitation = exploitation.get();
 

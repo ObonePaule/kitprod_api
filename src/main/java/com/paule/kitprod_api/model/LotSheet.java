@@ -13,7 +13,7 @@ public class LotSheet {
     public static final String SEQUENCE_NAME = "lotSheets_sequence";
 
     @Id
-    private long id;
+    private String id;
     private Date dateDebut;
     private Date dateFin;
     private int loss;
@@ -36,11 +36,11 @@ public class LotSheet {
         this.removalNumber = removalNumber;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

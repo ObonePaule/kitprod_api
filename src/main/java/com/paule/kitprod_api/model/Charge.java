@@ -11,7 +11,7 @@ public class Charge{
     public static final String SEQUENCE_NAME = "charges_sequence";
 
     @Id
-    private long id;
+    private String id;
     private ChargeType chargeType;
     private double value;
 
@@ -23,11 +23,11 @@ public class Charge{
         this.value = value;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

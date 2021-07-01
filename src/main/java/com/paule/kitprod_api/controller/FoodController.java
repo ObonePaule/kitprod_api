@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class FoodController {
 
@@ -18,14 +20,16 @@ public class FoodController {
     public FoodRepositoryCustomImpl foodRepositoryCustomImpl;
 
     @GetMapping(value = "/foods")
-    public List<Food> getAllFood(@RequestParam long idExploitation){
+    public List<Food> getAllFood(@RequestParam String idExploitation){
+
         return foodRepositoryCustomImpl.findAll(idExploitation);
     }
 
     @PostMapping(value = "/foods")
-    public String createFood(@RequestParam long idExploitation, @RequestBody Food food){
-        food.setId(sequenceGeneratorService.generateSequence(food.SEQUENCE_NAME));
+    public Food createFood(@RequestParam String idExploitation, @RequestBody Food food){
+        food.setId(UUID.randomUUID().toString());
         Food insertedFood = foodRepositoryCustomImpl.insert(idExploitation, food);
-        return "Food inserted"+insertedFood.getName();
+
+        return insertedFood;
     }
 }

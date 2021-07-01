@@ -3,8 +3,8 @@ package com.paule.kitprod_api.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Document(collection = "building")
@@ -14,14 +14,13 @@ public class Building {
     public static final String SEQUENCE_NAME = "buildings_sequence";
 
     @Id
-    private long id;
+    private String id;
     private String name;
     private int space;
     private int numberOfLots;
     private ArrayList<Lot> lots;
 
     public Building(){
-        super();
     }
 
     public Building(String name, int space, int numberOfLots, ArrayList<Lot> lots) {
@@ -38,11 +37,11 @@ public class Building {
         this.lots.add(lot);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -71,6 +70,10 @@ public class Building {
     }
 
     public List<Lot> getLots() {
+        System.out.println("hello");
+        if (lots == null) {
+            return Collections.EMPTY_LIST;
+        }
         return lots;
     }
 
