@@ -70,7 +70,6 @@ public class Building {
     }
 
     public List<Lot> getLots() {
-        System.out.println("hello");
         if (lots == null) {
             return Collections.EMPTY_LIST;
         }

@@ -44,7 +44,7 @@ public class FoodRepositoryCustomImpl implements IFoodRepositoryCustom {
     @Override
     public Food findById(String idExploitation, String idFood) {
         List<Food> foods = this.findAll(idExploitation);
-        Predicate<Food> byId = food -> food.getId() == idFood;
+        Predicate<Food> byId = food -> food.getId().equals(idFood);
         List<Food> foodById = foods.stream().filter(byId).collect(Collectors.toList());
 
         if (!foodById.isEmpty()){

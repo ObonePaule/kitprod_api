@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Repository
 public class LotRepositoryCustomImpl implements ILotRepositoryCustom{
 
-    @Autowired private ExploitationRepository exploitationRepository;
+    @Autowired public ExploitationRepository exploitationRepository;
     @Autowired public BuildingRepositoryCustomImpl buildingRepositoryCustomImpl;
 
     @Override
@@ -33,8 +33,8 @@ public class LotRepositoryCustomImpl implements ILotRepositoryCustom{
     @Override
     public List<Lot> findAll(String idExploitation, String idBuilding) {
         Building existingBuilding = buildingRepositoryCustomImpl.findById(idExploitation, idBuilding);
-        System.out.println("hello guys");
         if (existingBuilding != null){
+
             return existingBuilding.getLots();
         }
         return null;
@@ -43,7 +43,7 @@ public class LotRepositoryCustomImpl implements ILotRepositoryCustom{
     @Override
     public Lot findById(String idExploitation, String idBuilding, String idLot) {
         List<Lot> lots = this.findAll(idExploitation, idBuilding);
-        Predicate<Lot> byId = lot-> lot.getId() == idLot;
+        Predicate<Lot> byId = lot-> lot.getId().equals(idLot);
         List<Lot> lotById = lots.stream().filter(byId).collect(Collectors.toList());
 
         if (!lotById.isEmpty()){

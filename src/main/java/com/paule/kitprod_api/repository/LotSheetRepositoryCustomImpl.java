@@ -16,7 +16,7 @@ public class LotSheetRepositoryCustomImpl implements ILotSheetRepositoryCustom {
     public ExploitationRepository exploitationRepository;
 
     @Autowired
-    private LotRepositoryCustomImpl lotRepositoryCustomImpl;
+    public LotRepositoryCustomImpl lotRepositoryCustomImpl;
 
     @Override
     public LotSheet insert(String idExploitation, String idBuilding, String idLot, LotSheet lotSheet) {

@@ -35,6 +35,7 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
 
         if (exploitation.isPresent()) {
+
             Exploitation existingExploitation = exploitation.get();
 
             return existingExploitation.getBuildings();
@@ -45,10 +46,11 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
     @Override
     public Building findById(String idExploitation, String idBuilding) {
         List<Building> buildings = this.findAll(idExploitation);
-        Predicate<Building> byId = building -> building.getId() == idBuilding;
+        Predicate<Building> byId = building -> building.getId().equals(idBuilding);
         List<Building> buildingById = buildings.stream().filter(byId).collect(Collectors.toList());
 
         if (!buildingById.isEmpty()){
+
             return buildingById.get(0);
         }
         return null;

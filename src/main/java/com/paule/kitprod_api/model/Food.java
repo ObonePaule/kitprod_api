@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Document(collection = "food")
@@ -50,6 +51,9 @@ public class Food{
     }
 
     public List<RawMaterial> getRawMaterials() {
+        if (rawMaterials == null){
+            return Collections.EMPTY_LIST;
+        }
         return rawMaterials;
     }
 
