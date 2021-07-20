@@ -2,9 +2,11 @@ package com.paule.kitprod_api.repository;
 
 import com.paule.kitprod_api.model.Building;
 import com.paule.kitprod_api.model.Exploitation;
+import com.paule.kitprod_api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -15,6 +17,7 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
 
     @Autowired
     ExploitationRepository exploitationRepository;
+    UserRepository userRepository;
 
     @Override
     public Building insert(String idExploitation, Building building) {
@@ -40,7 +43,7 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
 
             return existingExploitation.getBuildings();
         }
-        return null;
+        return Collections.EMPTY_LIST;
     }
 
     @Override

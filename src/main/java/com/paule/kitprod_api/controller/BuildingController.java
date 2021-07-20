@@ -26,7 +26,7 @@ public class BuildingController {
     }
 
     @PostMapping(value = "/buildings")
-    public Building createBuilding(@RequestBody Building building, @RequestParam String idExploitation){
+    public Building createBuilding(@RequestParam String idExploitation, @RequestBody Building building ){
         building.setId(UUID.randomUUID().toString());
         Building insertedBuilding = buildingRepositoryCustomImpl.insert(idExploitation, building);
 

@@ -26,12 +26,15 @@ public class FixedTaskController {
     }
 
     @PostMapping(value = "/fixedtasks")
-    public void createFixedTask(@RequestParam String idExploitation, @RequestBody ArrayList<FixedTask> fixedTasks){
+    public List<FixedTask> createFixedTask(@RequestParam String idExploitation, @RequestBody ArrayList<FixedTask> fixedTasks){
+        ArrayList<FixedTask> insertedFixedTasks = new ArrayList<>();
         for (int i=0 ; i<fixedTasks.size(); i++) {
             FixedTask fixedTask = fixedTasks.get(i);
             fixedTask.setId(UUID.randomUUID().toString());
             FixedTask insertedFixedTask = fixedTaskRepositoryCustomImpl.insert(idExploitation, fixedTask);
+            insertedFixedTasks.add(insertedFixedTask);
         }
+        return insertedFixedTasks;
     }
 
 }

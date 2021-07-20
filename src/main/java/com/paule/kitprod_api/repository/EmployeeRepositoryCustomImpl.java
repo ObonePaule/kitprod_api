@@ -16,7 +16,6 @@ public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
 
     @Override
     public Employee insert(String idExploitation, Employee employee) {
-
         Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
 
         if (exploitation.isPresent()) {
