@@ -16,16 +16,16 @@ public class Building {
     @Id
     private String id;
     private String name;
-    private int space;
+    private int surface;
     private int numberOfLots;
     private ArrayList<Lot> lots;
 
     public Building(){
     }
 
-    public Building(String name, int space, int numberOfLots, ArrayList<Lot> lots) {
+    public Building(String name, int surface, int numberOfLots, ArrayList<Lot> lots) {
         this.name = name;
-        this.space = space;
+        this.surface = surface;
         this.numberOfLots = numberOfLots;
         this.lots = lots;
     }
@@ -53,12 +53,12 @@ public class Building {
         this.name = name;
     }
 
-    public int getSpace() {
-        return space;
+    public int getSurface() {
+        return surface;
     }
 
-    public void setSpace(int space) {
-        this.space = space;
+    public void setSpace(int surface) {
+        this.surface = surface;
     }
 
     public int getNumberOfLots() {

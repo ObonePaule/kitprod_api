@@ -15,25 +15,27 @@ public class LotSheet {
     @Id
     private String id;
     private Date dateDebut;
-    private Date dateFin;
     private int loss;
-    private Food dailyFood;
+    private DailyFood dailyFood;
+    private String complement;
     private double feedingAndCareTime;
-    private double removalWeight;
-    private int removalNumber;
+    private double manufacturingTime;
+    private SpecialEvent specialEvent;
+    private Removal removal;
 
     public LotSheet(){
         super();
     }
 
-    public LotSheet(Date dateDebut, Date dateFin, int loss, double feedingAndCareTime, double removalWeight, int removalNumber){
-        super();
+    public LotSheet(Date dateDebut, int loss, DailyFood dailyFood, String complement, double feedingAndCareTime, double manufacturingTime, SpecialEvent specialEvent, Removal removal) {
         this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
         this.loss = loss;
+        this.dailyFood = dailyFood;
+        this.complement = complement;
         this.feedingAndCareTime = feedingAndCareTime;
-        this.removalWeight = removalWeight;
-        this.removalNumber = removalNumber;
+        this.manufacturingTime = manufacturingTime;
+        this.specialEvent = specialEvent;
+        this.removal = removal;
     }
 
     public String getId() {
@@ -52,14 +54,6 @@ public class LotSheet {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
-        return dateFin;
-    }
-
-    public void setDateFin(Date dateFin) {
-        this.dateFin = dateFin;
-    }
-
     public int getLoss() {
         return loss;
     }
@@ -68,12 +62,20 @@ public class LotSheet {
         this.loss = loss;
     }
 
-    public Food getDailyFood() {
+    public DailyFood getDailyFood() {
         return dailyFood;
     }
 
-    public void setDailyFood(Food dailyFood) {
+    public void setDailyFood(DailyFood dailyFood) {
         this.dailyFood = dailyFood;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
     }
 
     public double getFeedingAndCareTime() {
@@ -84,19 +86,27 @@ public class LotSheet {
         this.feedingAndCareTime = feedingAndCareTime;
     }
 
-    public double getRemovalWeight() {
-        return removalWeight;
+    public double getManufacturingTime() {
+        return manufacturingTime;
     }
 
-    public void setRemovalWeight(double removalWeight) {
-        this.removalWeight = removalWeight;
+    public void setManufacturingTime(double manufacturingTime) {
+        this.manufacturingTime = manufacturingTime;
     }
 
-    public int getRemovalNumber() {
-        return removalNumber;
+    public SpecialEvent getSpecialEvent() {
+        return specialEvent;
     }
 
-    public void setRemovalNumber(int removalNumber) {
-        this.removalNumber = removalNumber;
+    public void setSpecialEvent(SpecialEvent specialEvent) {
+        this.specialEvent = specialEvent;
+    }
+
+    public Removal getRemoval() {
+        return removal;
+    }
+
+    public void setRemoval(Removal removal) {
+        this.removal = removal;
     }
 }

@@ -1,6 +1,6 @@
 package com.paule.kitprod_api.model;
 
-import java.util.UUID;
+import org.springframework.data.annotation.Id;
 
 public class SpecialEvent {
 
