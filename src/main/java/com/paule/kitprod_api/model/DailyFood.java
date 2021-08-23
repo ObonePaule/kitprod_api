@@ -5,20 +5,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document()
 public class DailyFood {
 
-    private String type;
+    private String idFood;
     private double value;
 
-    public DailyFood(String type, double value) {
-        this.type = type;
+    public DailyFood(String idFood, double value) {
+        this.idFood = idFood;
         this.value = value;
     }
 
-    public String getType() {
-        return type;
+    public String getIdFood() {
+        return idFood;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setIdFood(String idFood) {
+        this.idFood = idFood;
     }
 
     public double getValue() {

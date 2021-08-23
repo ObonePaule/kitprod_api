@@ -60,4 +60,14 @@ public class Food{
     public void setRawMaterials(List<RawMaterial> rawMaterials) {
         this.rawMaterials = rawMaterials;
     }
+
+//    Prix de l'aliment sur la base des prix des matières premières
+    public double getPrice(){
+        double price = 0;
+        for (RawMaterial rawMaterial : rawMaterials) {
+            price += rawMaterial.getMpPrice() * rawMaterial.getProportion() * 0.01;
+        }
+
+        return price;
+    }
 }

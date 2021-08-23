@@ -29,14 +29,14 @@ public class Lot {
         super();
     }
 
-    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter, List<LotSheet> lotSheets){
+    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter, List<LotSheet> lotSheets, boolean isArchived){
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
         this.number = number;
         this.costByAnimal = costByAnimal;
         this.costOfLitter = costOfLitter;
-        //this.isArchived = isArchived;
+        this.isArchived = isArchived;
         this.lotSheets = lotSheets;
     }
 
@@ -103,13 +103,13 @@ public class Lot {
         this.costOfLitter = costOfLitter;
     }
 
-//    public boolean isArchived() {
-//        return isArchived;
-//    }
-//
-//    public void setArchived(boolean archived) {
-//        isArchived = archived;
-//    }
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean archived) {
+        isArchived = archived;
+    }
 
     public List<LotSheet> getLotSheets() {
         if (lotSheets == null) {
