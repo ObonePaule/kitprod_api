@@ -75,4 +75,11 @@ public class Removal {
     public void setDeadWeightCoef(double deadWeightCoef) {
         this.deadWeightCoef = deadWeightCoef;
     }
+
+    public boolean isDone(){
+        if (getNumberOfMales()==0 && getNumberOfFemales()==0 && getNumberOfAllComers()==0){
+            return false;
+        }
+        return true;
+    }
 }

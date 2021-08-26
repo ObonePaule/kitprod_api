@@ -20,24 +20,30 @@ public class Lot {
     private String species;
     private int mepAge;
     private double costByAnimal;
-    private int number;
+    private int numberOfMales;
+    private int numberOfFemales;
+    private int numberOfAllcomers;
     private double costOfLitter;
     private boolean isArchived;
     private List<LotSheet> lotSheets;
+    private List<FixedTask> fixedTasks;
 
     public Lot(){
         super();
     }
 
-    public Lot(String name, String species, int mepAge, int number, double costByAnimal, double costOfLitter, List<LotSheet> lotSheets, boolean isArchived){
+    public Lot(String name, String species, int mepAge, double costByAnimal,int numberOfMales, int numberOfFemales, int numberOfAllcomers, double costOfLitter, List<LotSheet> lotSheets, boolean isArchived, List<FixedTask> fixedTasks){
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
-        this.number = number;
         this.costByAnimal = costByAnimal;
+        this.numberOfMales = numberOfMales;
+        this.numberOfFemales = numberOfFemales;
+        this.numberOfAllcomers = numberOfAllcomers;
         this.costOfLitter = costOfLitter;
         this.isArchived = isArchived;
         this.lotSheets = lotSheets;
+        this.fixedTasks = fixedTasks;
     }
 
     public void addLotSheet(LotSheet lotSheet){
@@ -45,6 +51,13 @@ public class Lot {
             this.lotSheets = new ArrayList<>();
         }
         this.lotSheets.add(lotSheet);
+    }
+
+    public void addFixedTask(FixedTask fixedTask){
+        if (this.fixedTasks == null) {
+            this.fixedTasks = new ArrayList<>();
+        }
+        this.fixedTasks.add(fixedTask);
     }
 
     public String getId() {
@@ -87,12 +100,28 @@ public class Lot {
         this.costByAnimal = costByAnimal;
     }
 
-    public int getNumber() {
-        return number;
+    public int getNumberOfMales() {
+        return numberOfMales;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumberOfMales(int numberOfMales) {
+        this.numberOfMales = numberOfMales;
+    }
+
+    public int getNumberOfFemales() {
+        return numberOfFemales;
+    }
+
+    public void setNumberOfFemales(int numberOfFemales) {
+        this.numberOfFemales = numberOfFemales;
+    }
+
+    public int getNumberOfAllcomers() {
+        return numberOfAllcomers;
+    }
+
+    public void setNumberOfAllcomers(int numberOfAllcomers) {
+        this.numberOfAllcomers = numberOfAllcomers;
     }
 
     public double getCostOfLitter() {
@@ -120,6 +149,17 @@ public class Lot {
 
     public void setLotSheets(List<LotSheet> listOfLotSheet) {
         this.lotSheets = lotSheets;
+    }
+
+    public List<FixedTask> getFixedTasks() {
+        if (fixedTasks == null) {
+            return Collections.EMPTY_LIST;
+        }
+        return fixedTasks;
+    }
+
+    public void setFixedTasks(List<FixedTask> fixedTasks) {
+        this.fixedTasks = fixedTasks;
     }
 }
 

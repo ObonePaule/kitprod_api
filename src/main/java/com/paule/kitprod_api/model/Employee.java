@@ -11,6 +11,7 @@ public class Employee{
 
     @Id private String id;
     private String name;
+    private String employeeType;
     private double numberOfHour;
     private double hourCost;
 
@@ -18,9 +19,9 @@ public class Employee{
         super();
     }
 
-    public Employee(String name, double numberOfHour, double hourCost){
-        super();
+    public Employee(String name,String employeeType, double numberOfHour, double hourCost){
         this.name = name;
+        this.employeeType = employeeType;
         this.numberOfHour = numberOfHour;
         this.hourCost = hourCost;
     }
@@ -55,5 +56,13 @@ public class Employee{
 
     public void setHourCost(double hourCost) {
         this.hourCost = hourCost;
+    }
+
+    public String getEmployeeType() {
+        return employeeType;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
     }
 }

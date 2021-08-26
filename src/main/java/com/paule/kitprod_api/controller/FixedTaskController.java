@@ -20,18 +20,18 @@ public class FixedTaskController {
     @Autowired public FixedTaskRepositoryCustomImpl fixedTaskRepositoryCustomImpl;
 
     @GetMapping(value = "/fixedtasks")
-    public List<FixedTask> getAllFixedTask(@RequestParam String idExploitation){
+    public List<FixedTask> getAllFixedTask(@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot){
 
-        return fixedTaskRepositoryCustomImpl.findAll(idExploitation);
+        return fixedTaskRepositoryCustomImpl.findAll(idExploitation, idBuilding, idLot);
     }
 
     @PostMapping(value = "/fixedtasks")
-    public List<FixedTask> createFixedTask(@RequestParam String idExploitation, @RequestBody ArrayList<FixedTask> fixedTasks){
+    public List<FixedTask> createFixedTask(@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot, @RequestBody ArrayList<FixedTask> fixedTasks){
         ArrayList<FixedTask> insertedFixedTasks = new ArrayList<>();
         for (int i=0 ; i<fixedTasks.size(); i++) {
             FixedTask fixedTask = fixedTasks.get(i);
             fixedTask.setId(UUID.randomUUID().toString());
-            FixedTask insertedFixedTask = fixedTaskRepositoryCustomImpl.insert(idExploitation, fixedTask);
+            FixedTask insertedFixedTask = fixedTaskRepositoryCustomImpl.insert(idExploitation, idBuilding, idLot, fixedTask);
             insertedFixedTasks.add(insertedFixedTask);
         }
         return insertedFixedTasks;

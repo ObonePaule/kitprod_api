@@ -1,7 +1,6 @@
 package com.paule.kitprod_api.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -11,19 +10,18 @@ import java.util.List;
 @Document(collection = "food")
 public class Food{
 
-    @Transient
-    public static final String SEQUENCE_NAME = "foods_sequence";
-
     @Id
     private String id;
     private String name;
+    private double fafPrestation;
     private List<RawMaterial> rawMaterials;
 
     public Food(){
     }
 
-    public Food(String name, List<RawMaterial> rawMaterials){
+    public Food(String name, double fafPrestation, List<RawMaterial> rawMaterials){
         this.name = name;
+        this.fafPrestation = fafPrestation;
         this.rawMaterials = rawMaterials;
     }
 
@@ -61,13 +59,21 @@ public class Food{
         this.rawMaterials = rawMaterials;
     }
 
-//    Prix de l'aliment sur la base des prix des matières premières
+    public double getFafPrestation() {
+        return fafPrestation;
+    }
+
+    public void setFafPrestation(double fafPrestation) {
+        this.fafPrestation = fafPrestation;
+    }
+
+    //  Calcul du prix d'un kilo d'aliment(x%MP1 + y%MP2...)
     public double getPrice(){
         double price = 0;
-        for (RawMaterial rawMaterial : rawMaterials) {
+        for (RawMaterial rawMaterial : getRawMaterials()) {
             price += rawMaterial.getMpPrice() * rawMaterial.getProportion() * 0.01;
         }
-
+        price = price + getFafPrestation();
         return price;
     }
 }

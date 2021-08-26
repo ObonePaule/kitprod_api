@@ -1,7 +1,6 @@
 package com.paule.kitprod_api.controller;
 
 import com.paule.kitprod_api.model.Food;
-import com.paule.kitprod_api.model.SequenceGeneratorService;
 import com.paule.kitprod_api.repository.FoodRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,6 @@ import java.util.UUID;
 @RestController
 public class FoodController {
 
-    @Autowired
-    private SequenceGeneratorService sequenceGeneratorService;
 
     @Autowired
     public FoodRepositoryCustomImpl foodRepositoryCustomImpl;

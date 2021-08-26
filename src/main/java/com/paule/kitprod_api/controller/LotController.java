@@ -63,52 +63,126 @@ public class LotController {
     @GetMapping(value= "/synthesis")
     public Synthesis getSynthesis (@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot) {
         double totalFoodCost = 0;
-        Map<String, Double> foodCosts = new HashMap<>();
-        double totalChargeCost = 0;
-        Map<String, Double> chargeCosts = new HashMap<>();
-        double totalEmployeeCosts = 0;
-        double mortality;
-        double totalNumberOfLosses = 0;
+        Map<String, Double> costByFood = new HashMap<>();
 
+        double totalFoodQuantity = 0;
+        Map<String, Double> quantityByFood = new HashMap<>();
+
+        double totalChargeCost = 0;
+        Map<String, Double> costByCharge = new HashMap<>();
+
+        double totalEmployeesCost = 0;
+
+        double lossPercent = 0;
+
+        double averageWeight = 0;
+
+        double averageDailyGain = 0;
+
+        double consumptionIndex = 0;
+
+
+        // Recuperation de toutes les fiches de lot
         Lot lot  = lotRepositoryCustomImpl.findById(idExploitation, idBuilding, idLot);
         List<LotSheet> lotSheets = lot.getLotSheets();
+
+        //Nombre d'animaux abattus et poids moyen
+        int numberOfAnimalsSold = 0;
+        List<Removal> removals = lotSheets.stream().map(LotSheet::getRemoval).collect(Collectors.toList());
+        for (Removal removal: removals) {
+            if (removal.getNumberOfAllComers() == 0){
+                numberOfAnimalsSold += removal.getNumberOfFemales() + removal.getNumberOfMales();
+            }
+            numberOfAnimalsSold += removal.getNumberOfAllComers();
+        }
+        System.out.println(numberOfAnimalsSold);
+
+
+        // Synthese aliment
         List<DailyFood> dailyFoods = lotSheets.stream().map(LotSheet::getDailyFood).collect(Collectors.toList());
         for (DailyFood dailyFood: dailyFoods) {
-            Food food = foodRepositoryCustomImpl.findById(idExploitation, dailyFood.getIdFood());
-            double dailyFoodPrice = food.getPrice() * dailyFood.getValue();
+
+            totalFoodQuantity += dailyFood.getValue() / numberOfAnimalsSold;
+
+            String foodType = dailyFood.getIdFood();
+            quantityByFood.put(foodType, quantityByFood.getOrDefault(foodType, (double) 0) + (dailyFood.getValue()/numberOfAnimalsSold));
+        }
+        for (Map.Entry quantityFoodMap : quantityByFood.entrySet()) {
+            Food food = foodRepositoryCustomImpl.findById(idExploitation, (String) quantityFoodMap.getKey());
+            System.out.println(food);
+            double dailyFoodPrice = food.getPrice() * (double)quantityFoodMap.getValue();
             totalFoodCost += dailyFoodPrice;
-            foodCosts.put(dailyFood.getIdFood(), foodCosts.getOrDefault(dailyFood.getIdFood(), (double) 0) + dailyFoodPrice);
+            costByFood.put( (String) quantityFoodMap.getKey(), costByFood.getOrDefault(quantityFoodMap.getKey(), (double) 0) + dailyFoodPrice);
         }
 
-        // Le cout des charges pour un batiment donné(son nombre de m2)/ pour un lot, pour un animal: combien de metres carrés occupe une volaille dans ce batiment. Surface/nombre de volaille-perte(au fur et à mesure)
+        // Le nombre de metres carrés sur une année
         List<Building> buildings = buildingRepositoryCustomImpl.findAll(idExploitation);
         double totalNumberOfSquareMeters = 0;
-        double costBySquareMeter;
         for (Building building: buildings) {
             totalNumberOfSquareMeters += building.getSurface() * building.getNumberOfLots();
         }
 
-        List<Charge> charges = chargeRepositoryCustomImpl.findAll(idExploitation);
+
+        // Synthese des charges par animal
         Building currentBuilding = buildingRepositoryCustomImpl.findById(idExploitation, idBuilding);
+        List<Charge> charges = chargeRepositoryCustomImpl.findAll(idExploitation);
         for (Charge charge: charges){
-            costBySquareMeter = charge.getValue()/totalNumberOfSquareMeters;
-            double chargeByBuilding = costBySquareMeter * currentBuilding.getSurface();
-            totalChargeCost += chargeByBuilding;
-            chargeCosts.put(charge.getId(), chargeByBuilding);
+            double chargeCostBySquareMeter = charge.getValue()/totalNumberOfSquareMeters;
+            double chargeByAnimal = chargeCostBySquareMeter * currentBuilding.getSurface() / numberOfAnimalsSold;
+            totalChargeCost += chargeByAnimal;
+            costByCharge.put(charge.getId(), chargeByAnimal);
         }
+
+        // Synthèse de la main d'oeuvre par animal
 
         List<Employee> employees = employeeRepositoryCustomImpl.findAll(idExploitation);
         for (Employee employee: employees){
-            double costByEmployee = employee.getHourCost() * employee.getNumberOfHour() / totalNumberOfSquareMeters;
-            totalEmployeeCosts += costByEmployee * currentBuilding.getSurface();
+            double costByEmployeeBySquareMeters = employee.getHourCost() * employee.getNumberOfHour() / totalNumberOfSquareMeters;
+            totalEmployeesCost += costByEmployeeBySquareMeters * currentBuilding.getSurface() / numberOfAnimalsSold;
         }
+
+        //Calcul de la Mortalité
+        double totalNumberOfLosses = 0;
+        double totalNumberOfLotAnimals = 0;
+        if (lot.getNumberOfAllcomers() == 0){
+            totalNumberOfLotAnimals = lot.getNumberOfFemales() + lot.getNumberOfMales();
+        }
+        totalNumberOfLotAnimals = lot.getNumberOfAllcomers();
 
         for (LotSheet lotSheet: lotSheets){
             totalNumberOfLosses += lotSheet.getLoss();
         }
-        mortality = totalNumberOfLosses / lot.getNumber();
+        lossPercent = (totalNumberOfLosses / totalNumberOfLotAnimals) * 100;
 
-        return new Synthesis(foodCosts, totalFoodCost, chargeCosts, totalChargeCost, totalEmployeeCosts, mortality);
+        //Calcul du poids moyen
+        double averageWeightByRemoval = 0;
+        int numberOfRemovals = 0;
+        for(Removal removal: removals){
+            if(removal.isDone() == true){
+                numberOfRemovals += 1;
+            }
+            if (removal.getNumberOfAllComers() != 0){
+                averageWeightByRemoval = removal.getWeightByAllComers();
+            }
+            else if (removal.getNumberOfFemales() == 0){
+                averageWeightByRemoval = removal.getWeightByMale();
+            }
+            else if (removal.getNumberOfMales() == 0){
+                averageWeightByRemoval = removal.getWeightByFemale();
+            }
+            else{
+                averageWeightByRemoval = (removal.getWeightByFemale() + removal.getNumberOfMales())/2;
+            }
+            averageWeight += averageWeightByRemoval / numberOfRemovals;
+        }
+
+        //Calcul du gain moyen quotidien
+        averageDailyGain = averageWeight / lotSheets.size();
+
+        //Calcul de l'indice de consommation
+        consumptionIndex = totalFoodQuantity / averageWeight;
+
+        return new Synthesis(costByFood, totalFoodCost, quantityByFood, totalFoodQuantity, costByCharge, totalChargeCost, totalEmployeesCost, lossPercent, averageWeight, averageDailyGain, consumptionIndex);
     }
 
 

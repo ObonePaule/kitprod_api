@@ -2,13 +2,9 @@ package com.paule.kitprod_api.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Transient;
 
 @Document(collection = "charge")
 public class Charge{
-
-    @Transient
-    public static final String SEQUENCE_NAME = "charges_sequence";
 
     @Id
     private String id;
