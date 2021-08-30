@@ -66,7 +66,7 @@ public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
         if (exploitation.isPresent()) {
             Exploitation existingExploitation = exploitation.get();
             List<Employee> employees = existingExploitation.getEmployees().stream().map(employee -> {
-                if (employee.getId() == idEmployee) {
+                if (employee.getId().equals(idEmployee)) {
                     employee.setName(updatedEmployee.getName());
                     employee.setHourCost(updatedEmployee.getHourCost());
                     employee.setNumberOfHour(updatedEmployee.getNumberOfHour());
