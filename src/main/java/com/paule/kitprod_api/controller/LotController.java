@@ -202,21 +202,21 @@ public class LotController {
         double costByAnimal = (currentLot.getCostByAnimal() * totalNumberOfLotAnimals) / numberOfAnimalsSold;
         double litterCostByAnimal = currentLot.getCostOfLitter() / numberOfAnimalsSold;
         double vaccinCostByAnimal = 0;
-        double veterinaryExpenses = 0;
+        double veterinaryCostByAnimal = 0;
 
         List<SpecialEvent> specialEvents = lotSheets.stream().map(LotSheet::getSpecialEvent)
                 .collect(Collectors.toList());
         for (SpecialEvent specialEvent : specialEvents) {
             vaccinCostByAnimal += specialEvent.getVaccin() / numberOfAnimalsSold;
-            veterinaryExpenses += specialEvent.getFraisVeterinaires() / numberOfAnimalsSold;
+            veterinaryCostByAnimal += specialEvent.getFraisVeterinaires() / numberOfAnimalsSold;
         }
 
-        totalVariousCharges = costByAnimal + litterCostByAnimal + vaccinCostByAnimal + veterinaryExpenses;
+        totalVariousCharges = costByAnimal + litterCostByAnimal + vaccinCostByAnimal + veterinaryCostByAnimal;
 
-        variousCharges.put("cout/animal", costByAnimal);
-        variousCharges.put("coût litière/animal", litterCostByAnimal);
-        variousCharges.put("coût vaccin/animal", vaccinCostByAnimal);
-        variousCharges.put("coût vétérinaire/animal", veterinaryExpenses);
+        variousCharges.put("costByAnimal", costByAnimal);
+        variousCharges.put("litterCostByAnimal", litterCostByAnimal);
+        variousCharges.put("vaccinCostByAnimal", vaccinCostByAnimal);
+        variousCharges.put("veterinaryCostByAnimal", veterinaryCostByAnimal);
 
         return new Synthesis(costByFood, totalFoodCost, quantityByFood, totalFoodQuantity, costByCharge,
                 totalChargeCost, totalEmployeesCost, lossPercent, averageWeight, averageDailyGain, consumptionIndex,
