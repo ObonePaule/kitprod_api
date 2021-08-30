@@ -20,7 +20,7 @@ public class Building {
     private int numberOfLots;
     private List<Lot> lots;
 
-    public Building(){
+    public Building() {
     }
 
     public Building(String name, int surface, int numberOfLots, List<Lot> lots) {
@@ -30,7 +30,7 @@ public class Building {
         this.lots = lots;
     }
 
-    public void addLot(Lot lot){
+    public void addLot(Lot lot) {
         if (this.lots == null) {
             this.lots = new ArrayList<>();
         }
@@ -71,7 +71,7 @@ public class Building {
 
     public List<Lot> getLots() {
         if (lots == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return lots;
     }

@@ -1,9 +1,7 @@
 package com.paule.kitprod_api.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,11 +24,13 @@ public class Lot {
     private List<LotSheet> lotSheets;
     private List<FixedTask> fixedTasks;
 
-    public Lot(){
+    public Lot() {
         super();
     }
 
-    public Lot(String name, String species, int mepAge, double costByAnimal,int numberOfMales, int numberOfFemales, int numberOfAllcomers, double costOfLitter, List<LotSheet> lotSheets, boolean archived, List<FixedTask> fixedTasks){
+    public Lot(String name, String species, int mepAge, double costByAnimal, int numberOfMales, int numberOfFemales,
+            int numberOfAllcomers, double costOfLitter, List<LotSheet> lotSheets, boolean archived,
+            List<FixedTask> fixedTasks) {
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
@@ -44,14 +44,14 @@ public class Lot {
         this.fixedTasks = fixedTasks;
     }
 
-    public void addLotSheet(LotSheet lotSheet){
+    public void addLotSheet(LotSheet lotSheet) {
         if (this.lotSheets == null) {
             this.lotSheets = new ArrayList<>();
         }
         this.lotSheets.add(lotSheet);
     }
 
-    public void addFixedTask(FixedTask fixedTask){
+    public void addFixedTask(FixedTask fixedTask) {
         if (this.fixedTasks == null) {
             this.fixedTasks = new ArrayList<>();
         }
@@ -140,18 +140,18 @@ public class Lot {
 
     public List<LotSheet> getLotSheets() {
         if (lotSheets == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return lotSheets;
     }
 
     public void setLotSheets(List<LotSheet> listOfLotSheet) {
-        this.lotSheets = lotSheets;
+        this.lotSheets = listOfLotSheet;
     }
 
     public List<FixedTask> getFixedTasks() {
         if (fixedTasks == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return fixedTasks;
     }
@@ -160,4 +160,3 @@ public class Lot {
         this.fixedTasks = fixedTasks;
     }
 }
-

@@ -1,8 +1,6 @@
 package com.paule.kitprod_api.controller;
 
 import com.paule.kitprod_api.model.Charge;
-import com.paule.kitprod_api.model.FixedTask;
-import com.paule.kitprod_api.model.SequenceGeneratorService;
 import com.paule.kitprod_api.repository.ChargeRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,21 +14,18 @@ import java.util.UUID;
 public class ChargeController {
 
     @Autowired
-    private SequenceGeneratorService sequenceGeneratorService;
-
-    @Autowired
     public ChargeRepositoryCustomImpl chargeRepositoryCustomImpl;
 
     @GetMapping(value = "/charges")
-    public List<Charge> getAllCharges(@RequestParam String idExploitation){
+    public List<Charge> getAllCharges(@RequestParam String idExploitation) {
 
         return chargeRepositoryCustomImpl.findAll(idExploitation);
     }
 
     @PostMapping(value = "/charges")
-    public List<Charge> createCharge(@RequestParam String idExploitation, @RequestBody ArrayList<Charge> charges){
+    public List<Charge> createCharge(@RequestParam String idExploitation, @RequestBody ArrayList<Charge> charges) {
         ArrayList<Charge> insertedCharges = new ArrayList<>();
-        for (int i=0 ; i<charges.size(); i++) {
+        for (int i = 0; i < charges.size(); i++) {
             Charge charge = charges.get(i);
             charge.setId(UUID.randomUUID().toString());
             Charge insertedCharge = chargeRepositoryCustomImpl.insert(idExploitation, charge);

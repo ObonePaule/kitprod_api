@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Document(collection = "food")
-public class Food{
+public class Food {
 
     @Id
     private String id;
@@ -16,16 +16,16 @@ public class Food{
     private double fafPrestation;
     private List<RawMaterial> rawMaterials;
 
-    public Food(){
+    public Food() {
     }
 
-    public Food(String name, double fafPrestation, List<RawMaterial> rawMaterials){
+    public Food(String name, double fafPrestation, List<RawMaterial> rawMaterials) {
         this.name = name;
         this.fafPrestation = fafPrestation;
         this.rawMaterials = rawMaterials;
     }
 
-    public void addRawMaterial(RawMaterial rawMaterial){
+    public void addRawMaterial(RawMaterial rawMaterial) {
         if (this.rawMaterials == null) {
             this.rawMaterials = new ArrayList<>();
         }
@@ -49,8 +49,8 @@ public class Food{
     }
 
     public List<RawMaterial> getRawMaterials() {
-        if (rawMaterials == null){
-            return Collections.EMPTY_LIST;
+        if (rawMaterials == null) {
+            return Collections.emptyList();
         }
         return rawMaterials;
     }
@@ -67,8 +67,8 @@ public class Food{
         this.fafPrestation = fafPrestation;
     }
 
-    //  Calcul du prix d'un kilo d'aliment(x%MP1 + y%MP2...)
-    public double getPrice(){
+    // Calcul du prix d'un kilo d'aliment(x%MP1 + y%MP2...)
+    public double getPrice() {
         double price = 0;
         for (RawMaterial rawMaterial : getRawMaterials()) {
             price += rawMaterial.getMpPrice() * rawMaterial.getProportion() * 0.01;

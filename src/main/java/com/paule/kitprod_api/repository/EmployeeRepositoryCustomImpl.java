@@ -12,7 +12,8 @@ import java.util.Optional;
 @Repository
 public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
 
-    @Autowired ExploitationRepository exploitationRepository;
+    @Autowired
+    ExploitationRepository exploitationRepository;
 
     @Override
     public Employee insert(String idExploitation, Employee employee) {
@@ -37,7 +38,7 @@ public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
 
             return existingExploitation.getEmployees();
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override

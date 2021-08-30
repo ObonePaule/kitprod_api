@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -16,12 +15,12 @@ public class UserController {
     public UserRepository userRepository;
 
     @GetMapping(value = "/users")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @GetMapping(value = "/users/:uid")
-    public User getUser(@RequestParam String uid){
+    public User getUser(@RequestParam String uid) {
         Optional<User> user = userRepository.findById(uid);
 
         if (user.isPresent()) {
@@ -31,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users")
-    public User createUser(@RequestBody User user){
+    public User createUser(@RequestBody User user) {
 
         return userRepository.insert(user);
     }

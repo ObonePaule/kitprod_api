@@ -1,7 +1,5 @@
 package com.paule.kitprod_api.model;
 
-import org.springframework.data.annotation.Id;
-
 public class SpecialEvent {
 
     private double vaccin;

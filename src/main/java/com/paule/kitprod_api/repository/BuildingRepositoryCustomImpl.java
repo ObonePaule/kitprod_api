@@ -2,7 +2,6 @@ package com.paule.kitprod_api.repository;
 
 import com.paule.kitprod_api.model.Building;
 import com.paule.kitprod_api.model.Exploitation;
-import com.paule.kitprod_api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,7 +42,7 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
 
             return existingExploitation.getBuildings();
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override
@@ -52,7 +51,7 @@ public class BuildingRepositoryCustomImpl implements IBuildingRepositoryCustom {
         Predicate<Building> byId = building -> building.getId().equals(idBuilding);
         List<Building> buildingById = buildings.stream().filter(byId).collect(Collectors.toList());
 
-        if (!buildingById.isEmpty()){
+        if (!buildingById.isEmpty()) {
 
             return buildingById.get(0);
         }

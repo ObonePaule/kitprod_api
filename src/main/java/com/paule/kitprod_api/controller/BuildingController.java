@@ -1,7 +1,6 @@
 package com.paule.kitprod_api.controller;
 
 import com.paule.kitprod_api.model.Building;
-import com.paule.kitprod_api.model.SequenceGeneratorService;
 import com.paule.kitprod_api.repository.BuildingRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +13,16 @@ import java.util.UUID;
 public class BuildingController {
 
     @Autowired
-    private SequenceGeneratorService sequenceGeneratorService;
-
-    @Autowired
     public BuildingRepositoryCustomImpl buildingRepositoryCustomImpl;
 
     @GetMapping(value = "/buildings")
-    public List<Building> getAllBuildings(@RequestParam String idExploitation){
+    public List<Building> getAllBuildings(@RequestParam String idExploitation) {
 
         return buildingRepositoryCustomImpl.findAll(idExploitation);
     }
 
     @PostMapping(value = "/buildings")
-    public Building createBuilding(@RequestParam String idExploitation, @RequestBody Building building ){
+    public Building createBuilding(@RequestParam String idExploitation, @RequestBody Building building) {
         building.setId(UUID.randomUUID().toString());
         Building insertedBuilding = buildingRepositoryCustomImpl.insert(idExploitation, building);
 
