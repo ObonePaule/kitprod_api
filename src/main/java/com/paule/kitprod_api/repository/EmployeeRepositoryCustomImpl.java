@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Repository
@@ -65,17 +64,18 @@ public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
 
         if (exploitation.isPresent()) {
             Exploitation existingExploitation = exploitation.get();
-            List<Employee> employees = existingExploitation.getEmployees().stream().map(employee -> {
+            List<Employee> updatedEmployees = existingExploitation.getEmployees().stream().peek(employee -> {
                 if (employee.getId().equals(idEmployee)) {
                     employee.setName(updatedEmployee.getName());
                     employee.setHourCost(updatedEmployee.getHourCost());
                     employee.setNumberOfHour(updatedEmployee.getNumberOfHour());
                     employee.setEmployeeType(updatedEmployee.getEmployeeType());
+
+                    updatedEmployee.setId(employee.getId());
                 }
-                return employee;
             }).collect(Collectors.toList());
 
-            existingExploitation.setEmployees(employees);
+            existingExploitation.setEmployees(updatedEmployees);
             exploitationRepository.save(existingExploitation);
 
             return updatedEmployee;
