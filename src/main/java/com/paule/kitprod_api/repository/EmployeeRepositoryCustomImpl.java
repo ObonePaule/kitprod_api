@@ -39,4 +39,20 @@ public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
         }
         return Collections.EMPTY_LIST;
     }
+
+    @Override
+    public boolean delete(String idExploitation, String idEmployee) {
+        boolean wasRemoved = false;
+        Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
+        if (exploitation.isPresent()) {
+            Exploitation existingExploitation = exploitation.get();
+            wasRemoved = existingExploitation.removeEmployee(idEmployee);
+            exploitationRepository.save(existingExploitation);
+
+            return wasRemoved;
+        }
+
+        return wasRemoved;
+    }
 }

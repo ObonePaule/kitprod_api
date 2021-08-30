@@ -31,4 +31,9 @@ public class EmployeeController {
 
         return insertedEmployee;
     }
+    
+    @DeleteMapping(value = "/employees")
+    public Employee deleteEmployee(@RequestParam String idExploitation, @RequestParam String idEmployee){
+        return employeeRepositoryCustomImpl.delete(idExploitation, idEmployee);
+    }
 }
