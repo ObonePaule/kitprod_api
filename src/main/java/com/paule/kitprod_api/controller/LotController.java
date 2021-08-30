@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET})
 @RestController
 public class LotController {
 
@@ -46,16 +46,30 @@ public class LotController {
         return insertedLot;
     }
 
-//    @PutMapping(value = "/update/{movieId}")
-//    public Movie updateMovie(@PathVariable String movieId, @RequestBody Movie movie) {
-//        logger.info("Updating movie with ID: {}", movieId);
-//        return movieRepository.save(movie);
-//    }
+    @PutMapping(value = "/lots/archive")
+    public boolean archiveLot(@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot) {
+        lotRepositoryCustomImpl.archive(idExploitation, idBuilding, idLot);
 
-//    @DeleteMapping(value = "/delete/{movieId}")
-//    public void deleteMovie(@PathVariable String movieId) {
-//        logger.info("Deleting movie with ID: {}", movieId);
-//        movieRepository.deleteById(movieId);
+        return true;
+    }
+
+    @PutMapping(value = "/lots/unarchive")
+    public boolean unarchiveLot(@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot) {
+        lotRepositoryCustomImpl.unarchive(idExploitation, idBuilding, idLot);
+
+        return true;
+    }
+
+    @PutMapping(value = "/lots")
+    public Lot updateLot(@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot, @RequestBody Lot lot) {
+        return lotRepositoryCustomImpl.update(idExploitation, idBuilding, idLot, lot);
+    }
+//
+//    @DeleteMapping(value = "/lots")
+//    public void deleteLot(@RequestParam String idExploitation, @RequestParam String idBuilding, @RequestParam String idLot) {
+//
+//
+//        }
 //    }
 
 
@@ -81,10 +95,14 @@ public class LotController {
 
         double consumptionIndex = 0;
 
+        Map<String, Double> variousCharges = new HashMap<>();
+
+        double totalVariousCharges = 0;
+
 
         // Recuperation de toutes les fiches de lot
-        Lot lot  = lotRepositoryCustomImpl.findById(idExploitation, idBuilding, idLot);
-        List<LotSheet> lotSheets = lot.getLotSheets();
+        Lot currentLot  = lotRepositoryCustomImpl.findById(idExploitation, idBuilding, idLot);
+        List<LotSheet> lotSheets = currentLot.getLotSheets();
 
         //Nombre d'animaux abattus et poids moyen
         int numberOfAnimalsSold = 0;
@@ -95,8 +113,6 @@ public class LotController {
             }
             numberOfAnimalsSold += removal.getNumberOfAllComers();
         }
-        System.out.println(numberOfAnimalsSold);
-
 
         // Synthese aliment
         List<DailyFood> dailyFoods = lotSheets.stream().map(LotSheet::getDailyFood).collect(Collectors.toList());
@@ -109,7 +125,6 @@ public class LotController {
         }
         for (Map.Entry quantityFoodMap : quantityByFood.entrySet()) {
             Food food = foodRepositoryCustomImpl.findById(idExploitation, (String) quantityFoodMap.getKey());
-            System.out.println(food);
             double dailyFoodPrice = food.getPrice() * (double)quantityFoodMap.getValue();
             totalFoodCost += dailyFoodPrice;
             costByFood.put( (String) quantityFoodMap.getKey(), costByFood.getOrDefault(quantityFoodMap.getKey(), (double) 0) + dailyFoodPrice);
@@ -143,11 +158,13 @@ public class LotController {
 
         //Calcul de la Mortalité
         double totalNumberOfLosses = 0;
-        double totalNumberOfLotAnimals = 0;
-        if (lot.getNumberOfAllcomers() == 0){
-            totalNumberOfLotAnimals = lot.getNumberOfFemales() + lot.getNumberOfMales();
+        double totalNumberOfLotAnimals;
+        if (currentLot.getNumberOfAllcomers() == 0) {
+            totalNumberOfLotAnimals = currentLot.getNumberOfFemales() + currentLot.getNumberOfMales();
         }
-        totalNumberOfLotAnimals = lot.getNumberOfAllcomers();
+        else{
+            totalNumberOfLotAnimals = currentLot.getNumberOfAllcomers();
+        }
 
         for (LotSheet lotSheet: lotSheets){
             totalNumberOfLosses += lotSheet.getLoss();
@@ -157,6 +174,7 @@ public class LotController {
         //Calcul du poids moyen
         double averageWeightByRemoval = 0;
         int numberOfRemovals = 0;
+        double tempAverageWeight = 0;
         for(Removal removal: removals){
             if(removal.isDone() == true){
                 numberOfRemovals += 1;
@@ -164,17 +182,20 @@ public class LotController {
             if (removal.getNumberOfAllComers() != 0){
                 averageWeightByRemoval = removal.getWeightByAllComers();
             }
-            else if (removal.getNumberOfFemales() == 0){
+            else if (removal.getNumberOfFemales() == 0 && removal.getNumberOfMales()!=0){
                 averageWeightByRemoval = removal.getWeightByMale();
             }
-            else if (removal.getNumberOfMales() == 0){
+            else if (removal.getNumberOfMales() == 0 && removal.getNumberOfFemales()!= 0){
                 averageWeightByRemoval = removal.getWeightByFemale();
             }
             else{
-                averageWeightByRemoval = (removal.getWeightByFemale() + removal.getNumberOfMales())/2;
+                averageWeightByRemoval = (removal.getWeightByFemale() + removal.getWeightByMale())/2;
             }
-            averageWeight += averageWeightByRemoval / numberOfRemovals;
+            tempAverageWeight += averageWeightByRemoval;
         }
+        averageWeight = tempAverageWeight / numberOfRemovals;
+
+
 
         //Calcul du gain moyen quotidien
         averageDailyGain = averageWeight / lotSheets.size();
@@ -182,7 +203,25 @@ public class LotController {
         //Calcul de l'indice de consommation
         consumptionIndex = totalFoodQuantity / averageWeight;
 
-        return new Synthesis(costByFood, totalFoodCost, quantityByFood, totalFoodQuantity, costByCharge, totalChargeCost, totalEmployeesCost, lossPercent, averageWeight, averageDailyGain, consumptionIndex);
+        double costByAnimal = (currentLot.getCostByAnimal() * totalNumberOfLotAnimals)/ numberOfAnimalsSold;
+        double litterCostByAnimal = currentLot.getCostOfLitter() / numberOfAnimalsSold;
+        double vaccinCostByAnimal = 0;
+        double veterinaryExpenses = 0;
+
+        List<SpecialEvent> specialEvents = lotSheets.stream().map(LotSheet::getSpecialEvent).collect(Collectors.toList());
+        for (SpecialEvent specialEvent: specialEvents){
+            vaccinCostByAnimal += specialEvent.getVaccin() / numberOfAnimalsSold;
+            veterinaryExpenses += specialEvent.getFraisVeterinaires() / numberOfAnimalsSold;
+        }
+
+        totalVariousCharges = costByAnimal + litterCostByAnimal + vaccinCostByAnimal + veterinaryExpenses;
+
+        variousCharges.put("cout/animal", costByAnimal);
+        variousCharges.put("coût litière/animal", litterCostByAnimal);
+        variousCharges.put("coût vaccin/animal", vaccinCostByAnimal);
+        variousCharges.put("coût vétérinaire/animal", veterinaryExpenses);
+
+        return new Synthesis(costByFood, totalFoodCost, quantityByFood, totalFoodQuantity, costByCharge, totalChargeCost, totalEmployeesCost, lossPercent, averageWeight, averageDailyGain, consumptionIndex, variousCharges, totalVariousCharges);
     }
 
 

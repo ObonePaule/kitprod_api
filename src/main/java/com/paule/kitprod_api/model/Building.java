@@ -18,12 +18,12 @@ public class Building {
     private String name;
     private int surface;
     private int numberOfLots;
-    private ArrayList<Lot> lots;
+    private List<Lot> lots;
 
     public Building(){
     }
 
-    public Building(String name, int surface, int numberOfLots, ArrayList<Lot> lots) {
+    public Building(String name, int surface, int numberOfLots, List<Lot> lots) {
         this.name = name;
         this.surface = surface;
         this.numberOfLots = numberOfLots;
@@ -76,7 +76,7 @@ public class Building {
         return lots;
     }
 
-    public void setLots(ArrayList<Lot> lots) {
+    public void setLots(List<Lot> lots) {
         this.lots = lots;
     }
 }

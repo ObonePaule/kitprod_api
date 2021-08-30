@@ -45,6 +45,9 @@ public class Removal {
     }
 
     public double getWeightByMale() {
+        if (getDeadWeightCoef() != 0){
+            return weightByMale * getDeadWeightCoef();
+        }
         return weightByMale;
     }
 
@@ -53,6 +56,9 @@ public class Removal {
     }
 
     public double getWeightByFemale() {
+        if (getDeadWeightCoef() != 0){
+            return weightByFemale * getDeadWeightCoef();
+        }
         return weightByFemale;
     }
 
@@ -61,6 +67,9 @@ public class Removal {
     }
 
     public double getWeightByAllComers() {
+        if (getDeadWeightCoef() != 0){
+            return weightByAllComers * getDeadWeightCoef();
+        }
         return weightByAllComers;
     }
 

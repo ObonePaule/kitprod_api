@@ -23,7 +23,11 @@ public class Synthesis {
 
     private double consumptionIndex;
 
-    public Synthesis(Map<String, Double> costByFood, double totalFoodCost, Map<String, Double> quantityByFood, double totalFoodQuantity, Map<String, Double> costByCharge, double totalChargeCost, double totalEmployeesCost, double lossPercent, double averageWeight, double averageDailyGain, double consumptionIndex) {
+    private Map<String, Double> variousCharges;
+
+    private double totalVariousCharges;
+
+    public Synthesis(Map<String, Double> costByFood, double totalFoodCost, Map<String, Double> quantityByFood, double totalFoodQuantity, Map<String, Double> costByCharge, double totalChargeCost, double totalEmployeesCost, double lossPercent, double averageWeight, double averageDailyGain, double consumptionIndex, Map<String, Double> variousCharges, double totalVariousCharges) {
         this.costByFood = costByFood;
         this.totalFoodCost = totalFoodCost;
         this.quantityByFood = quantityByFood;
@@ -35,6 +39,8 @@ public class Synthesis {
         this.averageWeight = averageWeight;
         this.averageDailyGain = averageDailyGain;
         this.consumptionIndex = consumptionIndex;
+        this.variousCharges = variousCharges;
+        this.totalVariousCharges = totalVariousCharges;
     }
 
     public Map<String, Double> getCostByFood() {
@@ -123,5 +129,21 @@ public class Synthesis {
 
     public void setConsumptionIndex(double consumptionIndex) {
         this.consumptionIndex = consumptionIndex;
+    }
+
+    public Map<String, Double> getVariousCharges() {
+        return variousCharges;
+    }
+
+    public void setVariousCharges(Map<String, Double> variousCharges) {
+        this.variousCharges = variousCharges;
+    }
+
+    public double getTotalVariousCharges() {
+        return totalVariousCharges;
+    }
+
+    public void setTotalVariousCharges(double totalVariousCharges) {
+        this.totalVariousCharges = totalVariousCharges;
     }
 }

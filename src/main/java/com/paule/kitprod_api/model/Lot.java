@@ -3,6 +3,7 @@ package com.paule.kitprod_api.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,9 +11,6 @@ import java.util.List;
 
 @Document(collection = "lot")
 public class Lot {
-
-    @Transient
-    public static final String SEQUENCE_NAME = "lots_sequence";
 
     @Id
     private String id;
@@ -24,7 +22,7 @@ public class Lot {
     private int numberOfFemales;
     private int numberOfAllcomers;
     private double costOfLitter;
-    private boolean isArchived;
+    private boolean archived;
     private List<LotSheet> lotSheets;
     private List<FixedTask> fixedTasks;
 
@@ -32,7 +30,7 @@ public class Lot {
         super();
     }
 
-    public Lot(String name, String species, int mepAge, double costByAnimal,int numberOfMales, int numberOfFemales, int numberOfAllcomers, double costOfLitter, List<LotSheet> lotSheets, boolean isArchived, List<FixedTask> fixedTasks){
+    public Lot(String name, String species, int mepAge, double costByAnimal,int numberOfMales, int numberOfFemales, int numberOfAllcomers, double costOfLitter, List<LotSheet> lotSheets, boolean archived, List<FixedTask> fixedTasks){
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
@@ -41,7 +39,7 @@ public class Lot {
         this.numberOfFemales = numberOfFemales;
         this.numberOfAllcomers = numberOfAllcomers;
         this.costOfLitter = costOfLitter;
-        this.isArchived = isArchived;
+        this.archived = archived;
         this.lotSheets = lotSheets;
         this.fixedTasks = fixedTasks;
     }
@@ -132,12 +130,12 @@ public class Lot {
         this.costOfLitter = costOfLitter;
     }
 
-    public boolean isArchived() {
-        return isArchived;
+    public boolean getArchived() {
+        return archived;
     }
 
     public void setArchived(boolean archived) {
-        isArchived = archived;
+        this.archived = archived;
     }
 
     public List<LotSheet> getLotSheets() {
