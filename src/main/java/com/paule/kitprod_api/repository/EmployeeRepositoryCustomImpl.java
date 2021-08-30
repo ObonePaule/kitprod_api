@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
@@ -55,5 +57,29 @@ public class EmployeeRepositoryCustomImpl implements IEmployeeRepositoryCustom {
         }
 
         return wasRemoved;
+    }
+
+    @Override
+    public Employee update(String idExploitation, String idEmployee, Employee updatedEmployee) {
+        Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
+        if (exploitation.isPresent()) {
+            Exploitation existingExploitation = exploitation.get();
+            List<Employee> employees = existingExploitation.getEmployees().stream().map(employee -> {
+                if (employee.getId() == idEmployee) {
+                    employee.setName(updatedEmployee.getName());
+                    employee.setHourCost(updatedEmployee.getHourCost());
+                    employee.setNumberOfHour(updatedEmployee.getNumberOfHour());
+                    employee.setEmployeeType(updatedEmployee.getEmployeeType());
+                }
+                return employee;
+            }).collect(Collectors.toList());
+
+            existingExploitation.setEmployees(employees);
+            exploitationRepository.save(existingExploitation);
+
+            return updatedEmployee;
+        }
+        return null;
     }
 }

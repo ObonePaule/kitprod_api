@@ -33,4 +33,10 @@ public class EmployeeController {
     public boolean deleteEmployee(@RequestParam String idExploitation, @RequestParam String idEmployee) {
         return employeeRepositoryCustomImpl.delete(idExploitation, idEmployee);
     }
+
+    @PutMapping(value = "/employees")
+    public Employee updateEmployee(@RequestParam String idExploitation, @RequestParam String idEmployee,
+            @RequestBody Employee employee) {
+        return employeeRepositoryCustomImpl.update(idExploitation, idEmployee, employee);
+    }
 }
