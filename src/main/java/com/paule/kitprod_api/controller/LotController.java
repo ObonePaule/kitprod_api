@@ -32,7 +32,7 @@ public class LotController {
     public EmployeeRepositoryCustomImpl employeeRepositoryCustomImpl;
 
     @GetMapping(value = "/lots")
-    public List<Lot> getAllLots(@RequestParam String idExploitation, @RequestParam String idBuilding) {
+    public List<Lot> getLots(@RequestParam String idExploitation, @RequestParam String idBuilding) {
         return lotRepositoryCustomImpl.findAll(idExploitation, idBuilding);
     }
 
@@ -218,9 +218,12 @@ public class LotController {
         variousCharges.put("vaccinCostByAnimal", vaccinCostByAnimal);
         variousCharges.put("veterinaryCostByAnimal", veterinaryCostByAnimal);
 
-        return new Synthesis(costByFood, totalFoodCost, quantityByFood, totalFoodQuantity, costByCharge,
+        Synthesis synthesis = new Synthesis(costByFood, totalFoodCost, quantityByFood, totalFoodQuantity, costByCharge,
                 totalChargeCost, totalEmployeesCost, lossPercent, averageWeight, averageDailyGain, consumptionIndex,
                 variousCharges, totalVariousCharges);
+        lotRepositoryCustomImpl.saveSynthesis(idExploitation, idBuilding,idLot, synthesis);
+
+        return synthesis;
     }
 
 }

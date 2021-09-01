@@ -3,6 +3,7 @@ package com.paule.kitprod_api.repository;
 import com.paule.kitprod_api.model.Building;
 import com.paule.kitprod_api.model.Exploitation;
 import com.paule.kitprod_api.model.Lot;
+import com.paule.kitprod_api.model.Synthesis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -131,27 +132,26 @@ public class LotRepositoryCustomImpl implements ILotRepositoryCustom {
         return updatedlot;
     }
 
-    // public void delete(String idExploitation, String idBuilding, String idLot) {
-    // Optional<Exploitation> exploitation =
-    // exploitationRepository.findById(idExploitation);
-    // if (exploitation.isPresent()) {
-    // Exploitation existingExploitation = exploitation.get();
-    // List<Building> updatedBuildings =
-    // existingExploitation.getBuildings().stream().peek(building -> {
-    // if (building.getId().equals(idBuilding)) {
-    // List<Lot> updatedLots = building.getLots().stream().peek(lot -> {
-    // if (lot.getId().equals(idLot)) {
-    //
-    // }
-    // }).collect(Collectors.toList());
-    //
-    // building.setLots(updatedLots);
-    // }
-    // }).collect(Collectors.toList());
-    //
-    // existingExploitation.setBuildings(updatedBuildings);
-    // exploitationRepository.save(existingExploitation);
-    // }
-    //
-    // }
+    public void saveSynthesis(String idExploitation, String idBuilding, String idLot, Synthesis synthesis) {
+        Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+        if (exploitation.isPresent()) {
+            Exploitation existingExploitation = exploitation.get();
+            List<Building> updatedBuildings = existingExploitation.getBuildings().stream().peek(building -> {
+                if (building.getId().equals(idBuilding)) {
+                    List<Lot> updatedLots = building.getLots().stream().peek(lot -> {
+                        if (lot.getId().equals(idLot)) {
+                            lot.setSynthesis(synthesis);
+                        }
+                    }).collect(Collectors.toList());
+
+                    building.setLots(updatedLots);
+                }
+            }).collect(Collectors.toList());
+
+            existingExploitation.setBuildings(updatedBuildings);
+            exploitationRepository.save(existingExploitation);
+        }
+    }
+
+
 }

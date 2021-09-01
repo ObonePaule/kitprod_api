@@ -23,6 +23,7 @@ public class Lot {
     private boolean archived;
     private List<LotSheet> lotSheets;
     private List<FixedTask> fixedTasks;
+    private Synthesis synthesis;
 
     public Lot() {
         super();
@@ -30,7 +31,7 @@ public class Lot {
 
     public Lot(String name, String species, int mepAge, double costByAnimal, int numberOfMales, int numberOfFemales,
             int numberOfAllcomers, double costOfLitter, List<LotSheet> lotSheets, boolean archived,
-            List<FixedTask> fixedTasks) {
+            List<FixedTask> fixedTasks, Synthesis synthesis) {
         this.name = name;
         this.species = species;
         this.mepAge = mepAge;
@@ -42,6 +43,7 @@ public class Lot {
         this.archived = archived;
         this.lotSheets = lotSheets;
         this.fixedTasks = fixedTasks;
+        this.synthesis = synthesis;
     }
 
     public void addLotSheet(LotSheet lotSheet) {
@@ -158,5 +160,13 @@ public class Lot {
 
     public void setFixedTasks(List<FixedTask> fixedTasks) {
         this.fixedTasks = fixedTasks;
+    }
+
+    public Synthesis getSynthesis() {
+        return synthesis;
+    }
+
+    public void setSynthesis(Synthesis synthesis) {
+        this.synthesis = synthesis;
     }
 }
