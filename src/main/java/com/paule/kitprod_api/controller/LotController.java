@@ -65,14 +65,6 @@ public class LotController {
             @RequestParam String idLot, @RequestBody Lot lot) {
         return lotRepositoryCustomImpl.update(idExploitation, idBuilding, idLot, lot);
     }
-    //
-    // @DeleteMapping(value = "/lots")
-    // public void deleteLot(@RequestParam String idExploitation, @RequestParam
-    // String idBuilding, @RequestParam String idLot) {
-    //
-    //
-    // }
-    // }
 
     @GetMapping(value = "/synthesis")
     public Synthesis getSynthesis(@RequestParam String idExploitation, @RequestParam String idBuilding,

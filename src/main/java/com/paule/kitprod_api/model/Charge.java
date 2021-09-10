@@ -34,4 +34,12 @@ public class Charge{
     public ChargeType getChargeType() {
         return chargeType;
     }
+
+    public void setChargeType(ChargeType chargeType) {
+        this.chargeType = chargeType;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
 }

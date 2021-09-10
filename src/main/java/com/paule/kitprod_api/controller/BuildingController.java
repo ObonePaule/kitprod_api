@@ -28,4 +28,15 @@ public class BuildingController {
 
         return insertedBuilding;
     }
+
+    @DeleteMapping(value = "/buildings")
+    public boolean deleteBuilding(@RequestParam String idExploitation, @RequestParam String idBuilding) {
+        return buildingRepositoryCustomImpl.delete(idExploitation, idBuilding);
+    }
+
+    @PutMapping(value = "/buildings")
+    public Building updateBuilding(@RequestParam String idExploitation, @RequestParam String idBuilding,
+                                   @RequestBody Building building) {
+        return buildingRepositoryCustomImpl.update(idExploitation, idBuilding, building);
+    }
 }

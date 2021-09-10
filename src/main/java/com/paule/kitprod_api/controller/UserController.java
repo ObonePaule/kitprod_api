@@ -19,14 +19,11 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(value = "/users/:uid")
+    @GetMapping(value = "/users/uid")
     public User getUser(@RequestParam String uid) {
         Optional<User> user = userRepository.findById(uid);
 
-        if (user.isPresent()) {
-            return user.get();
-        }
-        return null;
+        return user.orElse(null);
     }
 
     @PostMapping(value = "/users")

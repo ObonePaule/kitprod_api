@@ -33,4 +33,15 @@ public class ChargeController {
         }
         return insertedCharges;
     }
+
+
+    @DeleteMapping(value = "/charges")
+    public boolean deleteCharges(@RequestParam String idExploitation, @RequestParam List<Charge> charges) {
+        return chargeRepositoryCustomImpl.delete(idExploitation, charges);
+    }
+
+    @PutMapping(value = "/charges")
+    public List<Charge> updateCharges(@RequestParam String idExploitation, @RequestParam List<Charge> charges) {
+        return chargeRepositoryCustomImpl.update(idExploitation, charges);
+    }
 }

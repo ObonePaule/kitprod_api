@@ -76,4 +76,8 @@ public class Food {
         price = price + getFafPrestation();
         return price;
     }
+
+    public boolean removeRawMaterial(String idRawMaterial) {
+        return rawMaterials.removeIf(rawMaterial -> rawMaterial.getId().equals(idRawMaterial));
+    }
 }

@@ -41,5 +41,21 @@ public class RawMaterialRepositoryCustomImpl implements IRawMaterialRepositoryCu
         }
         return null;
     }
+
+    @Override
+    public boolean delete(String idExploitation, String idFood, String idRawMaterial) {
+        boolean wasRemoved = false;
+        Optional<Exploitation> exploitation = exploitationRepository.findById(idExploitation);
+
+        if (exploitation.isPresent()) {
+            Exploitation existingExploitation = exploitation.get();
+            wasRemoved = existingExploitation.removeRawMaterial(idFood, idRawMaterial);
+            exploitationRepository.save(existingExploitation);
+
+            return wasRemoved;
+        }
+
+        return wasRemoved;
+    }
 }
 

@@ -23,11 +23,16 @@ public class RawMaterialController {
 
     @PostMapping(value = "/rawmaterials")
     public RawMaterial createRawMaterial(@RequestParam String idExploitation, @RequestParam String idFood,
-            @RequestBody RawMaterial rawMaterial) {
+                                         @RequestBody RawMaterial rawMaterial) {
         rawMaterial.setId(UUID.randomUUID().toString());
         RawMaterial insertedRawMaterial = rawMaterialRepositoryCustomImpl.insert(idExploitation, idFood, rawMaterial);
 
         return insertedRawMaterial;
     }
 
+//    @DeleteMapping(value = "/rawmaterials")
+//    public boolean deleteRawMaterial(@RequestParam String idExploitation, @RequestParam String idRawMaterial) {
+//        return rawMaterialRepositoryCustomImpl.delete(idExploitation, idRawMaterial);
+//
+//}
 }
